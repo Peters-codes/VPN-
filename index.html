@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoNet Connect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+
+    <!-- NAVBAR -->
+    <nav class="bg-white border-b sticky top-0 z-50 dark:bg-gray-900 dark:border-gray-800">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-green-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl">🌍</div>
+                <div>
+                    <span class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-sky-500">EcoNet</span>
+                    <span class="text-2xl font-semibold text-gray-800 dark:text-white">Connect</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-8 text-sm font-medium">
+                <a onclick="navigateTo('home')" class="cursor-pointer hover:text-green-600 nav-link nav-active" id="nav-home">Home</a>
+                <a onclick="navigateTo('vpn')" class="cursor-pointer hover:text-green-600 nav-link" id="nav-vpn">VPN</a>
+                <a onclick="navigateTo('adblock')" class="cursor-pointer hover:text-green-600 nav-link" id="nav-adblock">Ad Blocker</a>
+                <a onclick="navigateTo('hotspot')" class="cursor-pointer hover:text-green-600 nav-link" id="nav-hotspot">Hotspot</a>
+                <a onclick="navigateTo('account')" class="cursor-pointer hover:text-green-600 nav-link" id="nav-account">My Account</a>
+            </div>
+            
+            <div class="flex items-center gap-4" id="auth-section"></div>
+        </div>
+    </nav>
+    <!-- ==================== HOME PAGE ==================== -->
+    <div id="page-home" class="page">
+        <div class="hero-bg min-h-screen pt-20 pb-12 text-white relative overflow-hidden">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <div class="flex justify-center mb-6">
+                    <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2 rounded-3xl text-sm">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Limited Protection Active</span>
+                    </div>
+                </div>
+                <h1 class="text-6xl font-bold mb-3">Stay Connected.<br>Stay Protected.</h1>
+                <p class="text-xl text-white/90 mb-12 max-w-lg mx-auto">Eco-friendly VPN, powerful ad blocker, and secure mobile hotspot — all in one.</p>
+                
+                <div class="flex justify-center mb-12">
+                    <button onclick="quickConnect()" id="quick-connect-btn"
+                            class="quick-connect w-80 h-80 rounded-full bg-white shadow-2xl flex flex-col items-center justify-center text-green-500 hover:text-green-600 relative">
+                        <div class="absolute inset-0 rounded-full border-8 border-white/30 animate-ping"></div>
+                        <i class="fa-solid fa-power-off text-8xl mb-6"></i>
+                        <span class="text-4xl font-bold tracking-wider">QUICK CONNECT</span>
+                        <span id="connect-status" class="text-sm mt-4 font-medium">Tap to connect</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
+                    <div onclick="navigateTo('vpn')" class="glass rounded-3xl p-6 text-left cursor-pointer card-hover">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-3xl">🔒</div>
+                            <div><div class="text-sm opacity-75">VPN</div><div id="vpn-status-home" class="font-semibold text-xl">OFF</div></div>
+                        </div>
+                    </div>
+                    <div onclick="navigateTo('adblock')" class="glass rounded-3xl p-6 text-left cursor-pointer card-hover">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-3xl">🛡️</div>
+                            <div><div class="text-sm opacity-75">Ad Blocker</div><div id="adblock-status-home" class="font-semibold text-xl">6,767 Blocked</div></div>
+                        </div>
+                    </div>
+                    <div onclick="navigateTo('hotspot')" class="glass rounded-3xl p-6 text-left cursor-pointer card-hover">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-3xl">📡</div>
+                            <div><div class="text-sm opacity-75">Hotspot</div><div id="hotspot-status-home" class="font-semibold text-xl">Inactive</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VPN PAGE ==================== -->
+    <div id="page-vpn" class="page hidden">
+        <div class="max-w-3xl mx-auto px-6 py-12">
+            <button onclick="navigateTo('home')" class="text-green-500 mb-8"><i class="fa-solid fa-arrow-left text-2xl"></i></button>
+            <h1 class="text-4xl font-bold mb-10">VPN Settings</h1>
+            <div class="bg-white dark:bg-gray-900 rounded-3xl p-10 shadow-xl">
+                <div class="flex justify-between items-center mb-12">
+                    <div>
+                        <div class="text-2xl font-semibold">VPN Status</div>
+                        <div id="vpn-big-status" class="text-5xl font-bold text-red-500">DISCONNECTED</div>
+                    </div>
+                    <button onclick="toggleVPN()" id="vpn-toggle" class="w-28 h-28 rounded-full border-8 border-red-500 flex items-center justify-center text-6xl text-red-500 hover:scale-105 transition-all">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center py-4 border-b dark:border-gray-700">
+                            <div>Server Location</div>
+                            <select class="bg-gray-100 dark:bg-gray-800 rounded-2xl px-5 py-3 w-52">
+                                <option>Hong Kong (Fastest)</option>
+                                <option>Singapore</option>
+                                <option>Japan</option>
+                            </select>
+                        </div>z
+                        <div class="flex justify-between items-center py-4 border-b dark:border-gray-700">
+                            <div>Protocol</div>
+                            <div class="font-medium">WireGuard</div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-3xl p-6">
+                        <h4 class="font-semibold mb-4">Current Connection</h4>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between"><span class="text-gray-500">IP Address</span><span>45.76.XX.XX</span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Download</span><span class="text-green-500">12.4 MB/s</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== AD BLOCKER PAGE ==================== -->
+    <div id="page-adblock" class="page hidden">
+        <div class="max-w-3xl mx-auto px-6 py-12">
+            <button onclick="navigateTo('home')" class="text-green-500 mb-8"><i class="fa-solid fa-arrow-left text-2xl"></i></button>
+            <h1 class="text-4xl font-bold mb-10">Ad Blocker</h1>
+            <div class="bg-white dark:bg-gray-900 rounded-3xl p-10 shadow-xl text-center">
+                <div class="inline-flex items-center justify-center w-32 h-32 bg-green-100 dark:bg-green-900 text-green-500 rounded-full text-7xl mb-6">🛡️</div>
+                <div id="ad-count" class="text-6xl font-bold text-green-500">6,767</div>
+                <div class="text-xl text-gray-500 mb-10">ads blocked this session</div>
+                
+                <button onclick="toggleAdBlocker()" id="adblock-toggle-btn" class="w-full py-6 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-3xl text-2xl font-bold mb-12">ENABLED</button>
+
+                <div class="grid grid-cols-2 gap-6 text-left">
+                    <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-3xl"><div class="font-medium">YouTube Ads</div><div class="text-green-500">ON</div></div>
+                    <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-3xl"><div class="font-medium">Social Tracking</div><div class="text-green-500">ON</div></div>
+                    <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-3xl"><div class="font-medium">Pop-ups</div><div class="text-green-500">ON</div></div>
+                    <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-3xl"><div class="font-medium">Malware Protection</div><div class="text-green-500">ON</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== HOTSPOT PAGE ==================== -->
+    <div id="page-hotspot" class="page hidden">
+        <div class="max-w-3xl mx-auto px-6 py-12">
+            <button onclick="navigateTo('home')" class="text-green-500 mb-8"><i class="fa-solid fa-arrow-left text-2xl"></i></button>
+            <h1 class="text-4xl font-bold mb-10">Mobile Hotspot</h1>
+            <div class="bg-white dark:bg-gray-900 rounded-3xl p-10 shadow-xl text-center">
+                <div class="mx-auto w-40 h-40 bg-gradient-to-br from-sky-400 to-blue-500 rounded-3xl flex items-center justify-center text-white text-8xl mb-8">📡</div>
+                <div id="hotspot-status" class="text-4xl font-bold text-gray-400 mb-8">INACTIVE</div>
+                
+                <button onclick="toggleHotspot()" id="hotspot-btn" class="w-full py-8 text-3xl font-bold bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-3xl mb-10">START HOTSPOT</button>
+
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-3xl p-8">
+                    <h4 class="font-semibold mb-4">Hotspot Info</h4>
+                    <div class="grid grid-cols-2 gap-6 text-sm text-left">
+                        <div>Network Name<br><span class="font-medium">EcoNet_Hotspot</span></div>
+                        <div>Password<br><span class="font-medium">ec0net123</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIGN UP PAGE -->
+    <div id="page-signup" class="page hidden max-w-md mx-auto px-6 py-12">
+        <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-xl p-10">
+            <button onclick="navigateTo('home')" class="text-green-500 mb-6"><i class="fa-solid fa-arrow-left text-2xl"></i></button>
+            <h1 class="text-4xl font-bold text-center mb-2">Create Account</h1>
+            <p class="text-center text-gray-500 mb-10">Join EcoNet Connect in seconds</p>
+            <form onsubmit="handleSignup(event)" class="space-y-6">
+                <input type="text" id="name" placeholder="Full Name" required class="w-full px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                <input type="email" id="email" placeholder="Email Address" required class="w-full px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                <input type="password" id="password" placeholder="Password" required class="w-full px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                <button type="submit" class="w-full py-5 bg-green-500 hover:bg-green-600 text-white rounded-3xl text-xl font-semibold">Create Free Account</button>
+            </form>
+        </div>
+    </div>
+
+        <!-- UPGRADE PAGE - FIXED WITH SELECTABLE PLANS -->
+        <div id="page-upgrade" class="page hidden">
+            <div class="max-w-5xl mx-auto px-6 py-12">
+                <button onclick="navigateTo('home')" class="text-green-500 mb-8"><i class="fa-solid fa-arrow-left text-2xl"></i></button>
+                <h1 class="text-4xl font-bold mb-10">Choose Your Plan</h1>
+                
+                <!-- Pricing Cards -->
+                <div class="grid md:grid-cols-3 gap-8 mb-16" id="pricing-cards"></div>
+    
+                <!-- Payment Details -->
+                <div class="bg-white black:bg-gray-900 rounded-3xl p-10 max-w-lg mx-auto">
+                    <h2 class="text-2xl font-semibold mb-8 text-center">Payment Details</h2>
+                    <div class="space-y-6">
+                        <input type="text" placeholder="Cardholder Name" class="w-full px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                        <input type="text" placeholder="Card Number" class="w-full px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                        <div class="grid grid-cols-2 gap-6">
+                            <input type="text" placeholder="MM / YY" class="px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                            <input type="text" placeholder="CVC" class="px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                        </div>
+                        <button onclick="completePayment()" 
+                                class="w-full py-6 bg-green-500 hover:bg-green-600 text-white text-xl font-bold rounded-3xl">
+                            Pay Securely Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+             <!-- MY ACCOUNT PAGE - MATCHING YOUR SCREENSHOT -->
+    <div id="page-account" class="page hidden bg-gray-950 text-white min-h-screen">
+        <div class="max-w-5xl mx-auto px-6 py-12">
+            <div class="flex items-center gap-4 mb-10">
+                <button onclick="navigateTo('home')" class="text-green-400"><i class="fa-solid fa-arrow-left text-2xl"></i></button>
+                <h1 class="text-3xl font-bold">My Account</h1>
+            </div>
+
+            <div class="grid md:grid-cols-5 gap-8">
+                <!-- Profile -->
+                <div class="md:col-span-2 bg-gray-900 rounded-3xl p-8 shadow-xl text-center">
+                    <div class="w-24 h-24 mx-auto bg-green-500 rounded-2xl flex items-center justify-center text-5xl font-bold mb-6">PG</div>
+                    <h2 class="text-2xl font-semibold">Peter Geng</h2>
+                    <p class="text-gray-400">peter.geng@email.com</p>
+                    <div class="mt-6 inline-block px-6 py-2 bg-green-900/50 text-green-400 rounded-3xl text-sm">Free Plan</div>
+                </div>
+
+                <!-- Pricing -->
+                <div class="md:col-span-3">
+                    <h3 class="text-2xl font-semibold mb-8">Choose Your Plan</h3>
+                    <div id="account-pricing-cards" class="grid md:grid-cols-3 gap-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+             <!-- Main Content -->
+                <div class="md:col-span-3 space-y-8">
+                <!-- Current Usage -->
+                    <div class="bg-white dark:bg-dark-500rounded-3xl p-8 shadow">
+                      <h3 class="font-semibold text-lg mb-6">Usage This Month</h3>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6">
+                                <div class="text-4xl font-bold text-green-500">674</div>
+                                <div class="text-sm text-gray-500">Ads Blocked</div>
+                                 </div>
+                                <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6">
+                                <div class="text-4xl font-bold text-green-500">34MB</div>
+                                <div class="text-sm text-gray-500">Data Saved</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+        <!-- UPGRADE PAGE - REVISED PRICING DISPLAY -->
+        <div id="page-upgrade" class="page hidden">
+            <div class="max-w-5xl mx-auto px-6 py-12">
+                <button onclick="navigateTo('home')" class="text-green-500 mb-8"><i class="fa-solid fa-arrow-left text-2xl"></i></button>
+                <h1 class="text-4xl font-bold mb-4">Choose Your Plan</h1>
+                <p class="text-gray-500 dark:text-gray-400 mb-12">Unlock full protection and faster speeds</p>
+                
+                <!-- Revised Pricing Cards -->
+                <div class="grid md:grid-cols-3 gap-8 mb-16" id="pricing-cards">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+    
+                <!-- Payment Details -->
+                <div class="bg-white dark:bg-gray-900 rounded-3xl p-10 max-w-lg mx-auto">
+                    <h2 class="text-2xl font-semibold mb-8 text-center">Payment Details</h2>
+                    <div class="space-y-6">
+                        <input type="text" placeholder="Cardholder Name" class="w-full px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                        <input type="text" placeholder="Card Number" class="w-full px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                        <div class="grid grid-cols-2 gap-6">
+                            <input type="text" placeholder="MM / YY" class="px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                            <input type="text" placeholder="CVC" class="px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                        </div>
+                        <button onclick="completePayment()" class="w-full py-6 bg-green-500 hover:bg-green-600 text-white text-xl font-bold rounded-3xl">
+                            Pay Securely Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   <!-- SIGN UP / SIGN IN MODAL -->
+   <div id="auth-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
+    <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-w-md w-full mx-4 p-10">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold" id="modal-title">Sign Up</h2>
+            <button onclick="closeModal()" class="text-3xl text- black -400 hover:text-gray-600">×</button>
+        </div>
+        
+        <div id="signup-form">
+            <form onsubmit="handleSignup(event)" class="space-y-6">
+                <input type="text" id="name" placeholder="Full Name" required class="w-full px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                <input type="email" id="email" placeholder="Email Address" required class="w-full px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                <input type="password" id="password" placeholder="Password" required class="w-full px-6 py-5 bg-gray-100 dark:bg-gray-800 rounded-2xl">
+                <button type="submit" class="w-full py-5 bg-green-500 hover:bg-green-600 text-white rounded-3xl text-xl font-semibold">
+                    Create Free Account
+                </button>
+            </form>
+        </div>
+
+        <div class="text-center mt-6 text-sm text-gray-500">
+            Already have an account? 
+            <span onclick="switchToLogin()" class="text-green-500 cursor-pointer">Sign In</span>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="hidden fixed bottom-6 right-6 bg-gray-900 text-white px-8 py-4 rounded-3xl shadow-2xl z-50"></div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

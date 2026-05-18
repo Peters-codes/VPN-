@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.hero-bg {
+    background: linear-gradient(135deg, #0ea5e9 0%, #22c55e 100%);
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+}
+
+.quick-connect {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quick-connect:active {
+    transform: scale(0.95);
+}
+
+.nav-active {
+    border-bottom: 3px solid #22c55e;
+}
+
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+}
+
+.plan-card {
+    transition: all 0.3s ease;
+}
+
+/* Dark Mode Support */
+.dark .glass { background: rgba(0, 0, 0, 0.3); }
+
+/* Add this at the bottom of style.css */
+#adblock-toggle-btn, #hotspot-btn {
+    transition: all 0.3s ease;
+}
+
+#adblock-toggle-btn:active, #hotspot-btn:active {
+    transform: scale(0.95);
+}
+
+/* Add at the bottom of your style.css */
+#vpn-toggle {
+    transition: all 0.3s ease;
+}
+
+#vpn-toggle:active {
+    transform: scale(0.9);
+}
